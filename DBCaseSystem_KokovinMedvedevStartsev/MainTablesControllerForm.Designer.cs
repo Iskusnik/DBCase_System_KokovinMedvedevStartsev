@@ -1,6 +1,6 @@
 ﻿namespace DBCaseSystem_KokovinMedvedevStartsev
 {
-    partial class Form1
+    partial class MainTablesControllerForm
     {
         /// <summary>
         /// Обязательная переменная конструктора.

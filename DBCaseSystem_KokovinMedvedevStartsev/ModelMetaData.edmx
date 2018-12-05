@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl" Namespace="ModelMetaData.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2005">
+        <EntityContainer Name="ModelMetaDataTargetContainer" >
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="ModelMetaData" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="ModelMetaDataContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="TableSet" EntityType="ModelMetaData.Table" />
+          <EntitySet Name="RelationSet" EntityType="ModelMetaData.Relation" />
+          <EntitySet Name="AttributeSet" EntityType="ModelMetaData.Attribute" />
+          <EntitySet Name="QuerySet" EntityType="ModelMetaData.Query" />
+          <AssociationSet Name="AttributeTable" Association="ModelMetaData.AttributeTable">
+            <End Role="Attribute" EntitySet="AttributeSet" />
+            <End Role="Table" EntitySet="TableSet" />
+          </AssociationSet>
+          <AssociationSet Name="TableRelation" Association="ModelMetaData.TableRelation">
+            <End Role="Table" EntitySet="TableSet" />
+            <End Role="Relation" EntitySet="RelationSet" />
+          </AssociationSet>
+          <EntitySet Name="DatabaseSet" EntityType="ModelMetaData.Database" />
+          <AssociationSet Name="DatabaseTable" Association="ModelMetaData.DatabaseTable">
+            <End Role="Database" EntitySet="DatabaseSet" />
+            <End Role="Table" EntitySet="TableSet" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Table">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" />
+          <NavigationProperty Name="Attribute" Relationship="ModelMetaData.AttributeTable" FromRole="Table" ToRole="Attribute" />
+          <NavigationProperty Name="Relation" Relationship="ModelMetaData.TableRelation" FromRole="Table" ToRole="Relation" />
+          <NavigationProperty Name="Database" Relationship="ModelMetaData.DatabaseTable" FromRole="Table" ToRole="Database" />
+        </EntityType>
+        <EntityType Name="Relation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ConnectedTableID" Type="String" Nullable="false" />
+          <NavigationProperty Name="Table" Relationship="ModelMetaData.TableRelation" FromRole="Relation" ToRole="Table" />
+          <Property Name="Type" Type="String" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Attribute">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" />
+          <Property Name="Type" Type="String" Nullable="false" />
+          <Property Name="IsNull" Type="String" Nullable="false" />
+          <Property Name="IsKey" Type="String" Nullable="false" />
+          <NavigationProperty Name="Table" Relationship="ModelMetaData.AttributeTable" FromRole="Attribute" ToRole="Table" />
+          <Property Name="Length" Type="String" Nullable="false" />
+          <Property Name="DefaultValue" Type="String" Nullable="false" />
+          <Property Name="Indexed" Type="String" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Query">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" />
+          <Property Name="QueryText" Type="String" Nullable="false" />
+        </EntityType>
+        <Association Name="AttributeTable">
+          <End Type="ModelMetaData.Attribute" Role="Attribute" Multiplicity="*" />
+          <End Type="ModelMetaData.Table" Role="Table" Multiplicity="1" />
+        </Association>
+        <Association Name="TableRelation">
+          <End Type="ModelMetaData.Table" Role="Table" Multiplicity="1" />
+          <End Type="ModelMetaData.Relation" Role="Relation" Multiplicity="*" />
+        </Association>
+        <EntityType Name="Database">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" />
+          <NavigationProperty Name="Table" Relationship="ModelMetaData.DatabaseTable" FromRole="Database" ToRole="Table" />
+        </EntityType>
+        <Association Name="DatabaseTable">
+          <End Type="ModelMetaData.Database" Role="Database" Multiplicity="1" />
+          <End Type="ModelMetaData.Table" Role="Table" Multiplicity="*" />
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs" Space="C-S">
+        <Alias Key="Model" Value="ModelMetaData" />
+        <Alias Key="Target" Value="ModelMetaData.Store" />
+        <EntityContainerMapping CdmEntityContainer="ModelMetaDataContainer" StorageEntityContainer="ModelMetaDataTargetContainer">
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
