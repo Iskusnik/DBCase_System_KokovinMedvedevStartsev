@@ -41,7 +41,7 @@ namespace DBCaseSystem_KokovinMedvedevStartsev
                 for (int j = 0; j < tablesAttributes.Length; j++)
                     tablesCreation[i] += tablesAttributes[j].Name;
 
-
+                //В процессе
 
             }
 
