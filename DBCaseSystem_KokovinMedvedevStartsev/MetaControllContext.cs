@@ -91,5 +91,27 @@ namespace DBCaseSystem_KokovinMedvedevStartsev
             command.ExecuteNonQuery();
             conn.Close();
         }
+
+        public void AddColumn(Table table, Attribute attribute)
+        { }
+        public void RemoveColumn(Table table, Attribute attribute)
+        { }
+
+        public void AddTable(Table table)
+        { }
+        public void RemoveTable(Table table)
+        { }
+
+
+        public void AddRelation(Relation relation)
+        { }
+        public void RemoveRelation(Relation relation)
+        { }
+
+        //Добавить удаление аттрибута
+        //Добваить удаление таблицы
+        //Добавить удаление отношения
+
+        //Добавить обновление???
     }
 }

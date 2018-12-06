@@ -15,7 +15,7 @@ namespace DBCaseSystem_KokovinMedvedevStartsev
     public partial class Relation
     {
         public int Id { get; set; }
-        public string ConnectedTableID { get; set; }
+        public int ConnectedTableID { get; set; }
         public string Type { get; set; }
     
         public virtual Table Table { get; set; }

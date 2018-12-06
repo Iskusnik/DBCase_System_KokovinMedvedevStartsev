@@ -17,11 +17,11 @@ namespace DBCaseSystem_KokovinMedvedevStartsev
         public int Id { get; set; }
         public string Name { get; set; }
         public string Type { get; set; }
-        public string IsNull { get; set; }
-        public string IsKey { get; set; }
-        public string Length { get; set; }
+        public bool IsNull { get; set; }
+        public bool IsKey { get; set; }
+        public int Length { get; set; }
         public string DefaultValue { get; set; }
-        public string Indexed { get; set; }
+        public bool Indexed { get; set; }
     
         public virtual Table Table { get; set; }
     }

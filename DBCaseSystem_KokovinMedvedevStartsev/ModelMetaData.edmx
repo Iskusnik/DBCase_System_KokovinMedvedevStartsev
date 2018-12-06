@@ -46,7 +46,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ConnectedTableID" Type="String" Nullable="false" />
+          <Property Name="ConnectedTableID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Table" Relationship="ModelMetaData.TableRelation" FromRole="Relation" ToRole="Table" />
           <Property Name="Type" Type="String" Nullable="false" />
         </EntityType>
@@ -57,12 +57,12 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" />
           <Property Name="Type" Type="String" Nullable="false" />
-          <Property Name="IsNull" Type="String" Nullable="false" />
-          <Property Name="IsKey" Type="String" Nullable="false" />
+          <Property Name="IsNull" Type="Boolean" Nullable="false" />
+          <Property Name="IsKey" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Table" Relationship="ModelMetaData.AttributeTable" FromRole="Attribute" ToRole="Table" />
-          <Property Name="Length" Type="String" Nullable="false" />
+          <Property Name="Length" Type="Int32" Nullable="false" />
           <Property Name="DefaultValue" Type="String" Nullable="false" />
-          <Property Name="Indexed" Type="String" Nullable="false" />
+          <Property Name="Indexed" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="Query">
           <Key>
