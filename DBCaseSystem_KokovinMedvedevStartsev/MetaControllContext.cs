@@ -186,16 +186,20 @@ namespace DBCaseSystem_KokovinMedvedevStartsev
             SqlConnection conn = new SqlConnection(connectionStr);
             SqlCommand command = new SqlCommand(" ");
 
+            //CREATE TABLE TableName (TableNameId int IDENTITY(1,1) PRIMARY KEY);
+            command.CommandText = "CREATE TABLE " + table.Name + "(" + table.Name + "Id int IDENTITY(1,1) PRIMARY KEY);";
 
 
             command.ExecuteNonQuery();
             conn.Close();
         }
-        public void EditTable(Table table)
+        public void EditTable(Table table, string name)
         {
             SqlConnection conn = new SqlConnection(connectionStr);
             SqlCommand command = new SqlCommand(" ");
 
+            //sp_rename 'supplier', 'vendor';
+            command.CommandText = "sp_rename '" + table.Name + "', '" + name + "';";
 
 
             command.ExecuteNonQuery();
@@ -205,7 +209,8 @@ namespace DBCaseSystem_KokovinMedvedevStartsev
         {
             SqlConnection conn = new SqlConnection(connectionStr);
             SqlCommand command = new SqlCommand(" ");
-
+            //DROP TABLE TableName;
+            command.CommandText = "DROP TABLE " + table.Name + ";";
 
 
             command.ExecuteNonQuery();
@@ -218,7 +223,8 @@ namespace DBCaseSystem_KokovinMedvedevStartsev
             SqlConnection conn = new SqlConnection(connectionStr);
             SqlCommand command = new SqlCommand(" ");
 
-
+            //ALTER TABLE Orders
+            //ADD FOREIGN KEY(PersonID) REFERENCES Persons(PersonID);
 
             command.ExecuteNonQuery();
             conn.Close();
@@ -228,6 +234,12 @@ namespace DBCaseSystem_KokovinMedvedevStartsev
             SqlConnection conn = new SqlConnection(connectionStr);
             SqlCommand command = new SqlCommand(" ");
 
+            ///
+            ///
+            /// ALTER TABLE Orders
+            /// DROP FOREIGN KEY FK_PersonOrder;
+            /// 
+            ///
 
 
             command.ExecuteNonQuery();

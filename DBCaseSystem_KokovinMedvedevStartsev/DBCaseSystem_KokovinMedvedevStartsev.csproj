@@ -61,11 +61,35 @@
     <Compile Include="Database.cs">
       <DependentUpon>ShortModelMetaData.tt</DependentUpon>
     </Compile>
+    <Compile Include="Forms\FormAttributeEdit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormAttributeEdit.Designer.cs">
+      <DependentUpon>FormAttributeEdit.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\FormMain.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\FormMain.Designer.cs">
       <DependentUpon>FormMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FormRelationControll.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormRelationControll.Designer.cs">
+      <DependentUpon>FormRelationControll.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FormRelationEdit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormRelationEdit.Designer.cs">
+      <DependentUpon>FormRelationEdit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FormTableEdit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormTableEdit.Designer.cs">
+      <DependentUpon>FormTableEdit.cs</DependentUpon>
     </Compile>
     <Compile Include="MainTablesControllerForm.cs">
       <SubType>Form</SubType>
