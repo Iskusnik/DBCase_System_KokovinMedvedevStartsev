@@ -9,16 +9,25 @@ namespace DBCaseSystem_KokovinMedvedevStartsev
 {
     class MetaControllContext
     {
-        ModelMetaDataContainer context;
+        public ModelMetaDataContainer context;
         string connectionStr;
 
 
         public MetaControllContext(string connectionStr)
         {
-            context = new ModelMetaDataContainer();
-            this.connectionStr = connectionStr;
-        }
 
+
+            context = new ModelMetaDataContainer();
+            if (connectionStr is null)
+            {
+                this.connectionStr = context.Database.Connection.ConnectionString;
+            }
+            else
+            {
+                this.connectionStr = connectionStr;
+                context.Database.Connection.ConnectionString = connectionStr;
+            }
+        }
         public void CreateDB()
         {
             Table[] tables = context.TableSet.ToArray();
@@ -127,14 +136,35 @@ namespace DBCaseSystem_KokovinMedvedevStartsev
             conn.Close();
         }
 
-        public void EditColumn(Table table, Attribute attribute)
+        public void EditColumn(Table table, Attribute oldAttribute, Attribute newAttribute)
         {
             SqlConnection conn = new SqlConnection(connectionStr);
             SqlCommand command = new SqlCommand(" ");
 
-            command.CommandText = "ALTER TABLE " + table.Name +
-                                  " DROP COLUMN " + attribute.Name;
 
+            command.CommandText = "sp_rename" +
+                                  "'" + table.Name + "." + oldAttribute.Name + "'," +
+                                  "'" + newAttribute.Name + "', 'COLUMN; " +
+                                  "GO";
+
+            command.CommandText += "ALTER TABLE " + table.Name +
+                                  " ALTER COLUMN " + newAttribute.Name + " " + newAttribute.Type;
+
+            if (newAttribute.Length != 0)
+                command.CommandText += "(" + newAttribute.Length.ToString() + ")";
+
+            command.CommandText += " ";
+
+            if (!newAttribute.IsNull)
+                command.CommandText += "NOT NULL";
+
+            command.CommandText += "; ";
+
+            if (newAttribute.Indexed)
+                command.CommandText += "CREATE INDEX " + "idx_" + table.Name + "_" + newAttribute.Name +
+                " ON " + table.Name + "(" + newAttribute.Name + "); ";
+
+            
             command.ExecuteNonQuery();
             conn.Close();
         }
@@ -185,7 +215,7 @@ namespace DBCaseSystem_KokovinMedvedevStartsev
         {
             SqlConnection conn = new SqlConnection(connectionStr);
             SqlCommand command = new SqlCommand(" ");
-
+            ///TODO: доделать запросы
             //CREATE TABLE TableName (TableNameId int IDENTITY(1,1) PRIMARY KEY);
             command.CommandText = "CREATE TABLE " + table.Name + "(" + table.Name + "Id int IDENTITY(1,1) PRIMARY KEY);";
 
@@ -223,24 +253,47 @@ namespace DBCaseSystem_KokovinMedvedevStartsev
             SqlConnection conn = new SqlConnection(connectionStr);
             SqlCommand command = new SqlCommand(" ");
 
-            //ALTER TABLE Orders
-            //ADD FOREIGN KEY(PersonID) REFERENCES Persons(PersonID);
+            string tableName = relation.Table.Name;
+            string type = relation.Type;
+            string tableBname = context.TableSet.Find(relation.ConnectedTableID).Name;
+
+            if (type.Equals("child"))
+                command.CommandText = "ALTER TABLE " + tableName +
+                    " ADD FOREIGN KEY("+ tableBname + "Id) REFERENCES " + tableBname + "("+ tableBname + "Id);";
+
+            if (type.Equals("parent"))
+                ;//Добавляется FOREIGN KEY у чайлда
+
+            if (type.Equals("equal"))
+                ;//Создавать новую таблицу 
 
             command.ExecuteNonQuery();
             conn.Close();
         }
         public void RemoveRelation(Relation relation)
         {
-            SqlConnection conn = new SqlConnection(connectionStr);
-            SqlCommand command = new SqlCommand(" ");
-
             ///
             ///
             /// ALTER TABLE Orders
             /// DROP FOREIGN KEY FK_PersonOrder;
             /// 
             ///
+            SqlConnection conn = new SqlConnection(connectionStr);
+            SqlCommand command = new SqlCommand(" ");
 
+            string tableName = relation.Table.Name;
+            string type = relation.Type;
+            string tableBname = context.TableSet.Find(relation.ConnectedTableID).Name;
+
+            if (type.Equals("child"))
+                command.CommandText = "ALTER TABLE " + tableName +
+                                      " DROP FOREIGN KEY " + tableBname + "Id";
+
+            if (type.Equals("parent"))
+                ;//Добавляется FOREIGN KEY у чайлда
+
+            if (type.Equals("equal"))
+                ;//Создавать новую таблицу 
 
             command.ExecuteNonQuery();
             conn.Close();

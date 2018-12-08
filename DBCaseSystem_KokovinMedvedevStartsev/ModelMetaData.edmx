@@ -4,11 +4,109 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl" Namespace="ModelMetaData.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2005">
-        <EntityContainer Name="ModelMetaDataTargetContainer" >
-        </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+    <Schema Namespace="ModelMetaData.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="ModelMetaDataStoreContainer">
+    <EntitySet Name="TableSet" EntityType="ModelMetaData.Store.TableSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="RelationSet" EntityType="ModelMetaData.Store.RelationSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="AttributeSet" EntityType="ModelMetaData.Store.AttributeSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="QuerySet" EntityType="ModelMetaData.Store.QuerySet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="DatabaseSet" EntityType="ModelMetaData.Store.DatabaseSet" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="AttributeTable" Association="ModelMetaData.Store.AttributeTable">
+      <End Role="Attribute" EntitySet="AttributeSet" />
+      <End Role="Table" EntitySet="TableSet" />
+    </AssociationSet>
+    <AssociationSet Name="TableRelation" Association="ModelMetaData.Store.TableRelation">
+      <End Role="Table" EntitySet="TableSet" />
+      <End Role="Relation" EntitySet="RelationSet" />
+    </AssociationSet>
+    <AssociationSet Name="DatabaseTable" Association="ModelMetaData.Store.DatabaseTable">
+      <End Role="Database" EntitySet="DatabaseSet" />
+      <End Role="Table" EntitySet="TableSet" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="TableSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Database_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="RelationSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ConnectedTableID" Type="int" Nullable="false" />
+    <Property Name="Type" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Table_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AttributeSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Type" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="IsNull" Type="bit" Nullable="false" />
+    <Property Name="IsKey" Type="bit" Nullable="false" />
+    <Property Name="Length" Type="int" Nullable="false" />
+    <Property Name="DefaultValue" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Indexed" Type="bit" Nullable="false" />
+    <Property Name="Table_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="QuerySet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="QueryText" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="DatabaseSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <Association Name="AttributeTable">
+    <End Role="Attribute" Type="ModelMetaData.Store.AttributeSet" Multiplicity="*" />
+    <End Role="Table" Type="ModelMetaData.Store.TableSet" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Table">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Attribute">
+        <PropertyRef Name="Table_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="TableRelation">
+    <End Role="Table" Type="ModelMetaData.Store.TableSet" Multiplicity="1" />
+    <End Role="Relation" Type="ModelMetaData.Store.RelationSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Table">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Relation">
+        <PropertyRef Name="Table_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="DatabaseTable">
+    <End Role="Database" Type="ModelMetaData.Store.DatabaseSet" Multiplicity="1" />
+    <End Role="Table" Type="ModelMetaData.Store.TableSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Database">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Table">
+        <PropertyRef Name="Database_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="ModelMetaData" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
@@ -96,13 +194,82 @@
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
-      <Mapping xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs" Space="C-S">
-        <Alias Key="Model" Value="ModelMetaData" />
-        <Alias Key="Target" Value="ModelMetaData.Store" />
-        <EntityContainerMapping CdmEntityContainer="ModelMetaDataContainer" StorageEntityContainer="ModelMetaDataTargetContainer">
-        </EntityContainerMapping>
-      </Mapping>
-    </edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ModelMetaDataStoreContainer" CdmEntityContainer="ModelMetaDataContainer">
+    <EntitySetMapping Name="TableSet">
+      <EntityTypeMapping TypeName="IsTypeOf(ModelMetaData.Table)">
+        <MappingFragment StoreEntitySet="TableSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RelationSet">
+      <EntityTypeMapping TypeName="IsTypeOf(ModelMetaData.Relation)">
+        <MappingFragment StoreEntitySet="RelationSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="ConnectedTableID" ColumnName="ConnectedTableID" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AttributeSet">
+      <EntityTypeMapping TypeName="IsTypeOf(ModelMetaData.Attribute)">
+        <MappingFragment StoreEntitySet="AttributeSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="IsNull" ColumnName="IsNull" />
+          <ScalarProperty Name="IsKey" ColumnName="IsKey" />
+          <ScalarProperty Name="Length" ColumnName="Length" />
+          <ScalarProperty Name="DefaultValue" ColumnName="DefaultValue" />
+          <ScalarProperty Name="Indexed" ColumnName="Indexed" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="QuerySet">
+      <EntityTypeMapping TypeName="IsTypeOf(ModelMetaData.Query)">
+        <MappingFragment StoreEntitySet="QuerySet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="QueryText" ColumnName="QueryText" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DatabaseSet">
+      <EntityTypeMapping TypeName="IsTypeOf(ModelMetaData.Database)">
+        <MappingFragment StoreEntitySet="DatabaseSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="AttributeTable" TypeName="ModelMetaData.AttributeTable" StoreEntitySet="AttributeSet">
+      <EndProperty Name="Table">
+        <ScalarProperty Name="Id" ColumnName="Table_Id" />
+      </EndProperty>
+      <EndProperty Name="Attribute">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="TableRelation" TypeName="ModelMetaData.TableRelation" StoreEntitySet="RelationSet">
+      <EndProperty Name="Table">
+        <ScalarProperty Name="Id" ColumnName="Table_Id" />
+      </EndProperty>
+      <EndProperty Name="Relation">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="DatabaseTable" TypeName="ModelMetaData.DatabaseTable" StoreEntitySet="TableSet">
+      <EndProperty Name="Database">
+        <ScalarProperty Name="Id" ColumnName="Database_Id" />
+      </EndProperty>
+      <EndProperty Name="Table">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
   </edmx:Runtime>
   <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
@@ -116,6 +283,7 @@
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
         <DesignerProperty Name="EnablePluralization" Value="False" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
       </DesignerInfoPropertySet>
     </edmx:Options>
     <!-- Diagram content (shape and connector positions) -->

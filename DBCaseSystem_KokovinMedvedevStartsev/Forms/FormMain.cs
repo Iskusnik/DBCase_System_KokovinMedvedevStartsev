@@ -54,27 +54,38 @@ namespace DBCaseSystem_KokovinMedvedevStartsev.Forms
             }
         }
 
+
+
         private void EditColumn(int id)
         {
-
+            Form editColumn = new FormAttributeEdit();
+            editColumn.ShowDialog();
         }
 
         private void EditTable(int id)
         {
-
+            Form editTable = new FormTableEdit();
+            editTable.ShowDialog();
+        }
+        private void buttonAddRelation_Click(object sender, EventArgs e)
+        {
+            Form relations = new FormRelationControll();
+            relations.ShowDialog();
         }
 
+
         private void DeleteColumn(int id)
-        { }
+        {
+
+        }
 
 
         private void DeleteTable(int id)
-        { }
-
-        private void buttonAddRelation_Click(object sender, EventArgs e)
         {
-            
+
         }
+
+        
 
         private void buttonAddAttribute_Click(object sender, EventArgs e)
         {
@@ -86,16 +97,26 @@ namespace DBCaseSystem_KokovinMedvedevStartsev.Forms
 
         }
 
+        ///TODO: доделать управление формами и формы + Добавить проверку на уникальность
+        ///
         private void FormMain_Load(object sender, EventArgs e)
         {
-            context = new MetaControllContext("!CONNECTION STRING!");
+            context = new MetaControllContext(null);
+            RefreshForm();
         }
+
         private void RefreshForm()
-        { }
-
-        private void dataGridViewAttributes_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
         {
+            Table[] tables = context.context.TableSet.ToArray();
+            Attribute[] attributes = context.context.AttributeSet.ToArray();
 
+            dataGridViewAttributes.Rows.Clear();
+            foreach (var att in attributes)
+                dataGridViewAttributes.Rows.Add(att.Name);
+
+            dataGridViewTables.Rows.Clear();
+            foreach (var tab in tables)
+                dataGridViewAttributes.Rows.Add(tab.Name);
         }
     }
 }
