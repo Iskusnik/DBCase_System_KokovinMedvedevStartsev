@@ -4,15 +4,19 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="72f7982ab60e4a549dff80ae85816969" Name="Diagram1" ZoomLevel="125" >
-        <EntityTypeShape EntityType="ModelMetaData.Table" Width="1.5" PointX="5.125" PointY="3" />
-        <EntityTypeShape EntityType="ModelMetaData.Relation" Width="1.5" PointX="7.5" PointY="2.625" />
-        <EntityTypeShape EntityType="ModelMetaData.Attribute" Width="1.5" PointX="2.875" PointY="2.125" />
-        <EntityTypeShape EntityType="ModelMetaData.Query" Width="1.5" PointX="7.875" PointY="0.5" />
+      <Diagram DiagramId="72f7982ab60e4a549dff80ae85816969" Name="Diagram1" ZoomLevel="80" >
+        <EntityTypeShape EntityType="ModelMetaData.Table" Width="1.5" PointX="6.125" PointY="1.125" />
+        <EntityTypeShape EntityType="ModelMetaData.Relation" Width="1.5" PointX="2.5" PointY="0.625" />
+        <EntityTypeShape EntityType="ModelMetaData.Attribute" Width="1.5" PointX="6.125" PointY="4.5" />
+        <EntityTypeShape EntityType="ModelMetaData.Query" Width="1.5" PointX="10.375" PointY="0.5" />
         <AssociationConnector Association="ModelMetaData.AttributeTable" />
         <AssociationConnector Association="ModelMetaData.TableRelation" />
-        <EntityTypeShape EntityType="ModelMetaData.Database" Width="1.5" PointX="5.125" PointY="0.5" />
+        <EntityTypeShape EntityType="ModelMetaData.Database" Width="1.5" PointX="2" PointY="3.25" />
         <AssociationConnector Association="ModelMetaData.DatabaseTable" />
+        <EntityTypeShape EntityType="ModelMetaData.QueryOutput" Width="1.5" PointX="12.625" PointY="2.25" />
+        <AssociationConnector Association="ModelMetaData.QueryQueryOutput" />
+        <EntityTypeShape EntityType="ModelMetaData.QueryObject" Width="1.5" PointX="10.5" PointY="2.875" />
+        <AssociationConnector Association="ModelMetaData.QueryObjectQuery" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
