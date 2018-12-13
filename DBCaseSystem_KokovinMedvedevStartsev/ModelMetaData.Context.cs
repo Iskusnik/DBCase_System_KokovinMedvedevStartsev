@@ -30,5 +30,7 @@ namespace DBCaseSystem_KokovinMedvedevStartsev
         public virtual DbSet<Attribute> AttributeSet { get; set; }
         public virtual DbSet<Query> QuerySet { get; set; }
         public virtual DbSet<Database> DatabaseSet { get; set; }
+        public virtual DbSet<QueryOutput> QueryOutputSet { get; set; }
+        public virtual DbSet<QueryObject> QueryObjectSet { get; set; }
     }
 }

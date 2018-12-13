@@ -11,6 +11,8 @@
     <EntitySet Name="AttributeSet" EntityType="ModelMetaData.Store.AttributeSet" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="QuerySet" EntityType="ModelMetaData.Store.QuerySet" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="DatabaseSet" EntityType="ModelMetaData.Store.DatabaseSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="QueryOutputSet" EntityType="ModelMetaData.Store.QueryOutputSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="QueryObjectSet" EntityType="ModelMetaData.Store.QueryObjectSet" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="AttributeTable" Association="ModelMetaData.Store.AttributeTable">
       <End Role="Attribute" EntitySet="AttributeSet" />
       <End Role="Table" EntitySet="TableSet" />
@@ -22,6 +24,14 @@
     <AssociationSet Name="DatabaseTable" Association="ModelMetaData.Store.DatabaseTable">
       <End Role="Database" EntitySet="DatabaseSet" />
       <End Role="Table" EntitySet="TableSet" />
+    </AssociationSet>
+    <AssociationSet Name="QueryQueryOutput" Association="ModelMetaData.Store.QueryQueryOutput">
+      <End Role="Query" EntitySet="QuerySet" />
+      <End Role="QueryOutput" EntitySet="QueryOutputSet" />
+    </AssociationSet>
+    <AssociationSet Name="QueryObjectQuery" Association="ModelMetaData.Store.QueryObjectQuery">
+      <End Role="QueryObject" EntitySet="QueryObjectSet" />
+      <End Role="Query" EntitySet="QuerySet" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="TableSet">
@@ -62,6 +72,7 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
     <Property Name="QueryText" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="QueryObject_Id" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="DatabaseSet">
     <Key>
@@ -69,6 +80,23 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="QueryOutputSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Type" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Query_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="QueryObjectSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ObjectID" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Type" Type="int" Nullable="false" />
   </EntityType>
   <Association Name="AttributeTable">
     <End Role="Attribute" Type="ModelMetaData.Store.AttributeSet" Multiplicity="*" />
@@ -106,6 +134,30 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="QueryQueryOutput">
+    <End Role="Query" Type="ModelMetaData.Store.QuerySet" Multiplicity="1" />
+    <End Role="QueryOutput" Type="ModelMetaData.Store.QueryOutputSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Query">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="QueryOutput">
+        <PropertyRef Name="Query_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="QueryObjectQuery">
+    <End Role="QueryObject" Type="ModelMetaData.Store.QueryObjectSet" Multiplicity="1" />
+    <End Role="Query" Type="ModelMetaData.Store.QuerySet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="QueryObject">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Query">
+        <PropertyRef Name="QueryObject_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -127,6 +179,16 @@
           <AssociationSet Name="DatabaseTable" Association="ModelMetaData.DatabaseTable">
             <End Role="Database" EntitySet="DatabaseSet" />
             <End Role="Table" EntitySet="TableSet" />
+          </AssociationSet>
+          <EntitySet Name="QueryOutputSet" EntityType="ModelMetaData.QueryOutput" />
+          <AssociationSet Name="QueryQueryOutput" Association="ModelMetaData.QueryQueryOutput">
+            <End Role="Query" EntitySet="QuerySet" />
+            <End Role="QueryOutput" EntitySet="QueryOutputSet" />
+          </AssociationSet>
+          <EntitySet Name="QueryObjectSet" EntityType="ModelMetaData.QueryObject" />
+          <AssociationSet Name="QueryObjectQuery" Association="ModelMetaData.QueryObjectQuery">
+            <End Role="QueryObject" EntitySet="QueryObjectSet" />
+            <End Role="Query" EntitySet="QuerySet" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Table">
@@ -169,6 +231,8 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" />
           <Property Name="QueryText" Type="String" Nullable="false" />
+          <NavigationProperty Name="QueryOutput" Relationship="ModelMetaData.QueryQueryOutput" FromRole="Query" ToRole="QueryOutput" />
+          <NavigationProperty Name="QueryObject" Relationship="ModelMetaData.QueryObjectQuery" FromRole="Query" ToRole="QueryObject" />
         </EntityType>
         <Association Name="AttributeTable">
           <End Type="ModelMetaData.Attribute" Role="Attribute" Multiplicity="*" />
@@ -189,6 +253,37 @@
         <Association Name="DatabaseTable">
           <End Type="ModelMetaData.Database" Role="Database" Multiplicity="1" />
           <End Type="ModelMetaData.Table" Role="Table" Multiplicity="*" />
+        </Association>
+        <EntityType Name="QueryOutput">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Type" Type="String" Nullable="false" />
+          <NavigationProperty Name="Query" Relationship="ModelMetaData.QueryQueryOutput" FromRole="QueryOutput" ToRole="Query" />
+          <Property Name="Name" Type="String" Nullable="false" />
+        </EntityType>
+        <Association Name="QueryQueryOutput">
+          <End Type="ModelMetaData.Query" Role="Query" Multiplicity="1" />
+          <End Type="ModelMetaData.QueryOutput" Role="QueryOutput" Multiplicity="*" />
+        </Association>
+        <EntityType Name="QueryObject">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ObjectID" Type="String" Nullable="false" />
+          <Property Name="Type" Type="ModelMetaData.QueryObjectType" Nullable="false" />
+          <NavigationProperty Name="Query" Relationship="ModelMetaData.QueryObjectQuery" FromRole="QueryObject" ToRole="Query" />
+        </EntityType>
+        <EnumType Name="QueryObjectType">
+          <Member Name="Query" Value="0" />
+          <Member Name="Attribute" Value="1" />
+          <Member Name="Table" Value="2" />
+        </EnumType>
+        <Association Name="QueryObjectQuery">
+          <End Type="ModelMetaData.QueryObject" Role="QueryObject" Multiplicity="1" />
+          <End Type="ModelMetaData.Query" Role="Query" Multiplicity="*" />
         </Association>
       </Schema>
     </edmx:ConceptualModels>
@@ -244,6 +339,24 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="QueryOutputSet">
+      <EntityTypeMapping TypeName="IsTypeOf(ModelMetaData.QueryOutput)">
+        <MappingFragment StoreEntitySet="QueryOutputSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="QueryObjectSet">
+      <EntityTypeMapping TypeName="IsTypeOf(ModelMetaData.QueryObject)">
+        <MappingFragment StoreEntitySet="QueryObjectSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="ObjectID" ColumnName="ObjectID" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <AssociationSetMapping Name="AttributeTable" TypeName="ModelMetaData.AttributeTable" StoreEntitySet="AttributeSet">
       <EndProperty Name="Table">
         <ScalarProperty Name="Id" ColumnName="Table_Id" />
@@ -265,6 +378,22 @@
         <ScalarProperty Name="Id" ColumnName="Database_Id" />
       </EndProperty>
       <EndProperty Name="Table">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="QueryQueryOutput" TypeName="ModelMetaData.QueryQueryOutput" StoreEntitySet="QueryOutputSet">
+      <EndProperty Name="Query">
+        <ScalarProperty Name="Id" ColumnName="Query_Id" />
+      </EndProperty>
+      <EndProperty Name="QueryOutput">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="QueryObjectQuery" TypeName="ModelMetaData.QueryObjectQuery" StoreEntitySet="QuerySet">
+      <EndProperty Name="QueryObject">
+        <ScalarProperty Name="Id" ColumnName="QueryObject_Id" />
+      </EndProperty>
+      <EndProperty Name="Query">
         <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
     </AssociationSetMapping>

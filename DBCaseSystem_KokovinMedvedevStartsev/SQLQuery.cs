@@ -12,20 +12,19 @@ namespace DBCaseSystem_KokovinMedvedevStartsev
     using System;
     using System.Collections.Generic;
     
-    public partial class Query
+    public abstract partial class SQLQuery
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Query()
+        public SQLQuery()
         {
-            this.QueryOutput = new HashSet<QueryOutput>();
+            this.QueryObject = new HashSet<QueryObject>();
         }
     
         public int Id { get; set; }
-        public string Name { get; set; }
-        public string QueryText { get; set; }
+        public string Text { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<QueryOutput> QueryOutput { get; set; }
-        public virtual QueryObject QueryObject { get; set; }
+        public virtual ICollection<QueryObject> QueryObject { get; set; }
+        public virtual QueryObject QueryObject1 { get; set; }
     }
 }

@@ -12,20 +12,12 @@ namespace DBCaseSystem_KokovinMedvedevStartsev
     using System;
     using System.Collections.Generic;
     
-    public partial class Query
+    public partial class QueryOutput
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Query()
-        {
-            this.QueryOutput = new HashSet<QueryOutput>();
-        }
-    
         public int Id { get; set; }
+        public string Type { get; set; }
         public string Name { get; set; }
-        public string QueryText { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<QueryOutput> QueryOutput { get; set; }
-        public virtual QueryObject QueryObject { get; set; }
+        public virtual Query Query { get; set; }
     }
 }

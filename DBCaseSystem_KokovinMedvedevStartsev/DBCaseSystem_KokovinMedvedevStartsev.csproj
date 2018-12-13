@@ -118,6 +118,22 @@
     <Compile Include="Query.cs">
       <DependentUpon>ShortModelMetaData.tt</DependentUpon>
     </Compile>
+    <Compile Include="QueryConstructForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="QueryConstructForm.Designer.cs">
+      <DependentUpon>QueryConstructForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="QueryHandler.cs" />
+    <Compile Include="QueryObject.cs">
+      <DependentUpon>ShortModelMetaData.tt</DependentUpon>
+    </Compile>
+    <Compile Include="QueryObjectType.cs">
+      <DependentUpon>ShortModelMetaData.tt</DependentUpon>
+    </Compile>
+    <Compile Include="QueryOutput.cs">
+      <DependentUpon>ShortModelMetaData.tt</DependentUpon>
+    </Compile>
     <Compile Include="Relation.cs">
       <DependentUpon>ShortModelMetaData.tt</DependentUpon>
     </Compile>
@@ -145,6 +161,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="QueryConstructForm.resx">
+      <DependentUpon>QueryConstructForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EntityDeploy Include="ModelMetaData.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>ModelMetaData.Designer.cs</LastGenOutput>
