@@ -94,7 +94,14 @@ namespace DBCaseSystem_KokovinMedvedevStartsev.Forms
 
         private void buttonAddTable_Click(object sender, EventArgs e)
         {
+            Table table = new Table();
+            string name = "";
+            Form selectName = new Forms.FormNameSelect(ref name);
+            selectName.ShowDialog();
 
+            table.Name = name;
+
+            context.AddTable(table);
         }
 
         ///TODO: доделать управление формами и формы + Добавить проверку на уникальность

@@ -10,8 +10,8 @@ namespace DBCaseSystem_KokovinMedvedevStartsev
     class MetaControllContext
     {
         public ModelMetaDataContainer context;
-        string connectionStr;
-
+        SqlConnection conn;
+        
 
         public MetaControllContext(string connectionStr)
         {
@@ -20,22 +20,28 @@ namespace DBCaseSystem_KokovinMedvedevStartsev
             context = new ModelMetaDataContainer();
             if (connectionStr is null)
             {
-                this.connectionStr = context.Database.Connection.ConnectionString;
+                this.conn = context.Database.Connection as SqlConnection;
             }
             else
             {
-                this.connectionStr = connectionStr;
+                this.conn = new SqlConnection(connectionStr);
                 context.Database.Connection.ConnectionString = connectionStr;
             }
         }
+        
+        //Сreate, read, update, download
+        #region CRUD
         public void CreateDB()
         {
             Table[] tables = context.TableSet.ToArray();
             Attribute[] attributes = context.AttributeSet.ToArray();
             Relation[] relations = context.RelationSet.ToArray();
 
-            SqlConnection conn = new SqlConnection(connectionStr);
+            conn.Open();
+
             SqlCommand command = new SqlCommand(" ");
+
+            command.Connection = conn;
 
             string[] tablesCreation = new string[tables.Length];
 
@@ -104,13 +110,44 @@ namespace DBCaseSystem_KokovinMedvedevStartsev
             conn.Close();
         }
 
-
-
-        public void AddColumn(Table table, Attribute attribute)
+        //Обновляет первичный ключ таблицы в БД
+        public void RefreshTablePrimaryKey(Table table)
         {
-            SqlConnection conn = new SqlConnection(connectionStr);
+            conn.Open();
+
             SqlCommand command = new SqlCommand(" ");
 
+            command.Connection = conn;
+            Attribute[] primaryAttributes = (from temp in context.AttributeSet
+                                             where temp.IsKey && temp.Table.Name == table.Name
+                                             select temp).ToArray();
+
+            command.CommandText = "ALTER TABLE " + table.Name + "DROP PRIMARY KEY; ";
+
+            command.CommandText += "ALTER TABLE " + table.Name +
+                                  " ADD CONSTRAINT PK_" + table.Name + " PRIMARY KEY (" + table.Name + "Id";
+
+            foreach (var temp in primaryAttributes)
+                command.CommandText += "," + temp.Name;
+
+            command.CommandText += ");";
+
+            //Если есть ключ LastName, то будет
+            //ALTER TABLE Persons
+            //ADD CONSTRAINT PK_Persons PRIMARY KEY(PersonsId, LastName);
+
+            command.ExecuteNonQuery();
+            conn.Close();
+        }
+
+        #region Column
+        public void AddColumn(Table table, Attribute attribute)
+        {
+            conn.Open();
+
+            SqlCommand command = new SqlCommand(" ");
+
+            command.Connection = conn;
             command.CommandText = "ALTER TABLE " + table.Name +
                                   " ADD " + attribute.Name +
                                   " " + attribute.Type + " ";
@@ -134,13 +171,18 @@ namespace DBCaseSystem_KokovinMedvedevStartsev
 
             command.ExecuteNonQuery();
             conn.Close();
+            
+            context.AttributeSet.Add(attribute);
+            context.SaveChanges();
         }
 
         public void EditColumn(Table table, Attribute oldAttribute, Attribute newAttribute)
         {
-            SqlConnection conn = new SqlConnection(connectionStr);
+            conn.Open();
+
             SqlCommand command = new SqlCommand(" ");
 
+            command.Connection = conn;
 
             command.CommandText = "sp_rename" +
                                   "'" + table.Name + "." + oldAttribute.Name + "'," +
@@ -167,92 +209,93 @@ namespace DBCaseSystem_KokovinMedvedevStartsev
             
             command.ExecuteNonQuery();
             conn.Close();
+
+            context.Entry(oldAttribute).CurrentValues.SetValues(newAttribute);
+            context.SaveChanges();
         }
         
         public void RemoveColumn(Table table, Attribute attribute)
         {
-            SqlConnection conn = new SqlConnection(connectionStr);
+            conn.Open();
+
             SqlCommand command = new SqlCommand(" ");
 
+            command.Connection = conn;
 
             command.CommandText = "ALTER TABLE " + table.Name + "DROP COLUMN " + attribute.Name + " ;";
 
             command.ExecuteNonQuery();
             conn.Close();
+
+            context.AttributeSet.Remove(attribute);
+            context.SaveChanges();
         }
 
-        //Обновляет первичный ключ таблицы в БД
-        public void RefreshTablePrimaryKey(Table table)
-        {
-            SqlConnection conn = new SqlConnection(connectionStr);
-            SqlCommand command = new SqlCommand(" ");
-
-            Attribute[] primaryAttributes = (from temp in context.AttributeSet
-                                             where temp.IsKey && temp.Table.Name == table.Name
-                                             select temp).ToArray();
-
-            command.CommandText = "ALTER TABLE " + table.Name + "DROP PRIMARY KEY; ";
-
-            command.CommandText += "ALTER TABLE " + table.Name +
-                                  " ADD CONSTRAINT PK_" + table.Name + " PRIMARY KEY (" + table.Name + "Id";
-
-            foreach (var temp in primaryAttributes)
-                command.CommandText += "," + temp.Name;
-
-            command.CommandText += ");";
-
-            //Если есть ключ LastName, то будет
-            //ALTER TABLE Persons
-            //ADD CONSTRAINT PK_Persons PRIMARY KEY(PersonsId, LastName);
-
-            command.ExecuteNonQuery();
-            conn.Close();
-        }
-
-
-
+        #endregion
+        
+        #region Table
         public void AddTable(Table table)
         {
-            SqlConnection conn = new SqlConnection(connectionStr);
+            conn.Open();
+
             SqlCommand command = new SqlCommand(" ");
+
+            command.Connection = conn;
             ///TODO: доделать запросы
             //CREATE TABLE TableName (TableNameId int IDENTITY(1,1) PRIMARY KEY);
             command.CommandText = "CREATE TABLE " + table.Name + "(" + table.Name + "Id int IDENTITY(1,1) PRIMARY KEY);";
 
-
+            command.Connection = conn;
             command.ExecuteNonQuery();
             conn.Close();
+
+            context.TableSet.Add(table);
+            context.SaveChanges();
         }
         public void EditTable(Table table, string name)
         {
-            SqlConnection conn = new SqlConnection(connectionStr);
+            conn.Open();
+
             SqlCommand command = new SqlCommand(" ");
 
+            command.Connection = conn;
+            command.Connection = conn;
             //sp_rename 'supplier', 'vendor';
             command.CommandText = "sp_rename '" + table.Name + "', '" + name + "';";
 
 
             command.ExecuteNonQuery();
             conn.Close();
+            context.Entry(context.TableSet.Find(table.Id)).CurrentValues.SetValues(table);
+            context.SaveChanges();
         }
         public void RemoveTable(Table table)
         {
-            SqlConnection conn = new SqlConnection(connectionStr);
+            conn.Open();
+
             SqlCommand command = new SqlCommand(" ");
+
+            command.Connection = conn;
             //DROP TABLE TableName;
             command.CommandText = "DROP TABLE " + table.Name + ";";
 
 
             command.ExecuteNonQuery();
             conn.Close();
+
+            context.TableSet.Remove(table);
+            context.SaveChanges();
+            
         }
+        #endregion
 
-
+        #region Relation
         public void AddRelation(Relation relation)
         {
-            SqlConnection conn = new SqlConnection(connectionStr);
             SqlCommand command = new SqlCommand(" ");
+            conn.Open();
 
+            command.Connection = conn;
             string tableName = relation.Table.Name;
             string type = relation.Type;
             string tableBname = context.TableSet.Find(relation.ConnectedTableID).Name;
@@ -269,6 +312,10 @@ namespace DBCaseSystem_KokovinMedvedevStartsev
 
             command.ExecuteNonQuery();
             conn.Close();
+
+            context.RelationSet.Add(relation);
+            context.SaveChanges();
+
         }
         public void RemoveRelation(Relation relation)
         {
@@ -278,9 +325,11 @@ namespace DBCaseSystem_KokovinMedvedevStartsev
             /// DROP FOREIGN KEY FK_PersonOrder;
             /// 
             ///
-            SqlConnection conn = new SqlConnection(connectionStr);
+            conn.Open();
+
             SqlCommand command = new SqlCommand(" ");
 
+            command.Connection = conn;
             string tableName = relation.Table.Name;
             string type = relation.Type;
             string tableBname = context.TableSet.Find(relation.ConnectedTableID).Name;
@@ -297,12 +346,27 @@ namespace DBCaseSystem_KokovinMedvedevStartsev
 
             command.ExecuteNonQuery();
             conn.Close();
+
+
+            context.RelationSet.Remove(relation);
+            context.SaveChanges();
         }
+        #endregion
 
         //Добавить удаление аттрибута
         //Добваить удаление таблицы
         //Добавить удаление отношения
 
         //Добавить обновление???
+        #endregion
+
+        //Проверка, можно ли сделать что-то с базой данных
+        //Например, можно ли добавить таблицу с таким именем (проверка на существование такой таблицы в бд)
+        #region Action legallity
+        public bool NewTableIsLegal(Table table)
+        {
+            return !context.TableSet.Contains(table);
+        }
+        #endregion
     }
 }

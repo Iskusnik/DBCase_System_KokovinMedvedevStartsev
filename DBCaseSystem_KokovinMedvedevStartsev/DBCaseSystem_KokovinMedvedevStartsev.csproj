@@ -73,6 +73,12 @@
     <Compile Include="Forms\FormMain.Designer.cs">
       <DependentUpon>FormMain.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\FormNameSelect.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormNameSelect.Designer.cs">
+      <DependentUpon>FormNameSelect.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\FormRelationControll.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -90,12 +96,6 @@
     </Compile>
     <Compile Include="Forms\FormTableEdit.Designer.cs">
       <DependentUpon>FormTableEdit.cs</DependentUpon>
-    </Compile>
-    <Compile Include="MainTablesControllerForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MainTablesControllerForm.Designer.cs">
-      <DependentUpon>MainTablesControllerForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MetaControllContext.cs" />
     <Compile Include="ModelMetaData.Context.cs">
@@ -132,6 +132,9 @@
     </Compile>
     <EmbeddedResource Include="Forms\FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormNameSelect.resx">
+      <DependentUpon>FormNameSelect.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
