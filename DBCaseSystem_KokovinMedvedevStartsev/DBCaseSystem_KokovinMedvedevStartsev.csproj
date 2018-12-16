@@ -167,6 +167,9 @@
     <EmbeddedResource Include="Forms\FormNameSelect.resx">
       <DependentUpon>FormNameSelect.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormRelationEdit.resx">
+      <DependentUpon>FormRelationEdit.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
