@@ -243,6 +243,11 @@ namespace DBCaseSystem_KokovinMedvedevStartsev
                 " ON " + table.Name + "(" + attribute.Name + "); ";
 
 
+            command.CommandText += "ALTER TABLE " + table.Name + " ALTER COLUMN " + attribute.Name + " DROP DEFAULT; ";
+            command.CommandText += "ALTER TABLE " + table.Name +
+                                   " ADD CONSTRAINT DF_" + attribute.Name +
+                                   " DEFAULT '" + attribute.DefaultValue + "' FOR " + attribute.Name;
+
             command.ExecuteNonQuery();
             conn.Close();
             
@@ -280,7 +285,12 @@ namespace DBCaseSystem_KokovinMedvedevStartsev
                 command.CommandText += "CREATE INDEX " + "idx_" + table.Name + "_" + newAttribute.Name +
                 " ON " + table.Name + "(" + newAttribute.Name + "); ";
 
-            
+            command.CommandText += "ALTER TABLE " + table.Name + " ALTER COLUMN " + newAttribute.Name + " DROP DEFAULT; ";
+            command.CommandText += "ALTER TABLE " + table.Name +
+                                   " ADD CONSTRAINT DF_" + newAttribute.Name +
+                                   " DEFAULT " + newAttribute.DefaultValue +  " FOR " + newAttribute.Name;
+
+
             command.ExecuteNonQuery();
             conn.Close();
 
@@ -441,7 +451,15 @@ namespace DBCaseSystem_KokovinMedvedevStartsev
         public bool NewTableIsLegal(Table table)
         {
             Table[] tables = (from temp in context.TableSet where temp.Name == table.Name select temp).ToArray();
-            return !context.TableSet.Contains(table);
+            return tables.Length == 0;
+            //return !context.TableSet.Contains(table);
+        }
+
+        public bool NewAttributeIsLegal(Attribute attribute)
+        {
+            Attribute[] attributes = (from temp in context.AttributeSet where temp.Name == attribute.Name select temp).ToArray();
+            return attributes.Length == 0;
+            //return !context.AttributeSet.Contains(attribute);
         }
         #endregion
     }

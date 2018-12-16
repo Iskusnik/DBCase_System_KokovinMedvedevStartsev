@@ -35,16 +35,16 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.textBoxName = new System.Windows.Forms.TextBox();
             this.checkBoxKey = new System.Windows.Forms.CheckBox();
             this.textBoxLenght = new System.Windows.Forms.TextBox();
             this.checkBoxNull = new System.Windows.Forms.CheckBox();
-            this.textBoxDefaultName = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.comboBox2 = new System.Windows.Forms.ComboBox();
+            this.button1 = new System.Windows.Forms.Button();
+            this.checkBoxIndexed = new System.Windows.Forms.CheckBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.textBoxDefaultName = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -86,9 +86,9 @@
             this.tableLayoutPanel1.Controls.Add(this.textBoxLenght, 1, 3);
             this.tableLayoutPanel1.Controls.Add(this.checkBoxNull, 1, 4);
             this.tableLayoutPanel1.Controls.Add(this.textBoxDefaultName, 1, 5);
-            this.tableLayoutPanel1.Controls.Add(this.comboBox1, 1, 6);
             this.tableLayoutPanel1.Controls.Add(this.comboBox2, 1, 2);
             this.tableLayoutPanel1.Controls.Add(this.label6, 0, 5);
+            this.tableLayoutPanel1.Controls.Add(this.checkBoxIndexed, 1, 6);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -149,15 +149,6 @@
             this.label5.TabIndex = 4;
             this.label5.Text = "Пустая строка";
             // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(3, 150);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(129, 13);
-            this.label6.TabIndex = 5;
-            this.label6.Text = "Значение по умолчанию";
-            // 
             // label7
             // 
             this.label7.AutoSize = true;
@@ -183,7 +174,7 @@
             this.checkBoxKey.Name = "checkBoxKey";
             this.checkBoxKey.Size = new System.Drawing.Size(170, 29);
             this.checkBoxKey.TabIndex = 8;
-            this.checkBoxKey.Text = "Да/Нет";
+            this.checkBoxKey.Text = "Да";
             this.checkBoxKey.UseVisualStyleBackColor = true;
             // 
             // textBoxLenght
@@ -202,39 +193,8 @@
             this.checkBoxNull.Name = "checkBoxNull";
             this.checkBoxNull.Size = new System.Drawing.Size(170, 26);
             this.checkBoxNull.TabIndex = 11;
-            this.checkBoxNull.Text = "Да/Нет";
+            this.checkBoxNull.Text = "Да";
             this.checkBoxNull.UseVisualStyleBackColor = true;
-            // 
-            // textBoxDefaultName
-            // 
-            this.textBoxDefaultName.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxDefaultName.Location = new System.Drawing.Point(150, 153);
-            this.textBoxDefaultName.Name = "textBoxDefaultName";
-            this.textBoxDefaultName.Size = new System.Drawing.Size(170, 20);
-            this.textBoxDefaultName.TabIndex = 12;
-            // 
-            // button1
-            // 
-            this.button1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.button1.Location = new System.Drawing.Point(0, 0);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(323, 36);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "Сохранить";
-            this.button1.UseVisualStyleBackColor = true;
-            // 
-            // comboBox1
-            // 
-            this.comboBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
-            "Нет",
-            "Да (с повторениями)"});
-            this.comboBox1.Location = new System.Drawing.Point(150, 178);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(170, 21);
-            this.comboBox1.TabIndex = 13;
             // 
             // comboBox2
             // 
@@ -251,6 +211,44 @@
             this.comboBox2.Name = "comboBox2";
             this.comboBox2.Size = new System.Drawing.Size(170, 21);
             this.comboBox2.TabIndex = 14;
+            // 
+            // button1
+            // 
+            this.button1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.button1.Location = new System.Drawing.Point(0, 0);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(323, 36);
+            this.button1.TabIndex = 2;
+            this.button1.Text = "Сохранить";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // checkBoxIndexed
+            // 
+            this.checkBoxIndexed.AutoSize = true;
+            this.checkBoxIndexed.Location = new System.Drawing.Point(150, 178);
+            this.checkBoxIndexed.Name = "checkBoxIndexed";
+            this.checkBoxIndexed.Size = new System.Drawing.Size(41, 17);
+            this.checkBoxIndexed.TabIndex = 15;
+            this.checkBoxIndexed.Text = "Да";
+            this.checkBoxIndexed.UseVisualStyleBackColor = true;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(3, 150);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(129, 13);
+            this.label6.TabIndex = 5;
+            this.label6.Text = "Значение по умолчанию";
+            // 
+            // textBoxDefaultName
+            // 
+            this.textBoxDefaultName.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBoxDefaultName.Location = new System.Drawing.Point(150, 153);
+            this.textBoxDefaultName.Name = "textBoxDefaultName";
+            this.textBoxDefaultName.Size = new System.Drawing.Size(170, 20);
+            this.textBoxDefaultName.TabIndex = 12;
             // 
             // FormAttributeEdit
             // 
@@ -279,15 +277,15 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox textBoxName;
         private System.Windows.Forms.CheckBox checkBoxKey;
         private System.Windows.Forms.TextBox textBoxLenght;
         private System.Windows.Forms.CheckBox checkBoxNull;
-        private System.Windows.Forms.TextBox textBoxDefaultName;
-        private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.ComboBox comboBox2;
+        private System.Windows.Forms.CheckBox checkBoxIndexed;
+        private System.Windows.Forms.TextBox textBoxDefaultName;
+        private System.Windows.Forms.Label label6;
     }
 }

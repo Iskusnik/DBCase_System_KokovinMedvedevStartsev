@@ -37,18 +37,18 @@
             this.ColumnTableName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnEditTable = new System.Windows.Forms.DataGridViewButtonColumn();
             this.ColumnDeleteTable = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.idTable = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.buttonAddRelation = new System.Windows.Forms.Button();
             this.buttonAddAttribute = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.dataGridViewAttributes = new System.Windows.Forms.DataGridView();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.idTable = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnEdit = new System.Windows.Forms.DataGridViewButtonColumn();
             this.ColumnDelete = new System.Windows.Forms.DataGridViewButtonColumn();
             this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -135,6 +135,8 @@
             // 
             // dataGridViewTables
             // 
+            this.dataGridViewTables.AllowUserToAddRows = false;
+            this.dataGridViewTables.AllowUserToDeleteRows = false;
             this.dataGridViewTables.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridViewTables.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewTables.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -144,11 +146,14 @@
             this.idTable});
             this.dataGridViewTables.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridViewTables.Location = new System.Drawing.Point(3, 92);
+            this.dataGridViewTables.MultiSelect = false;
             this.dataGridViewTables.Name = "dataGridViewTables";
             this.dataGridViewTables.RowHeadersVisible = false;
+            this.dataGridViewTables.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridViewTables.Size = new System.Drawing.Size(266, 343);
             this.dataGridViewTables.TabIndex = 2;
             this.dataGridViewTables.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewTables_CellContentClick);
+            this.dataGridViewTables.SelectionChanged += new System.EventHandler(this.dataGridViewTables_SelectionChanged);
             // 
             // ColumnTableName
             // 
@@ -167,6 +172,13 @@
             this.ColumnDeleteTable.HeaderText = "Удалить";
             this.ColumnDeleteTable.Name = "ColumnDeleteTable";
             this.ColumnDeleteTable.Text = "Удалить";
+            // 
+            // idTable
+            // 
+            this.idTable.HeaderText = "id";
+            this.idTable.Name = "idTable";
+            this.idTable.ReadOnly = true;
+            this.idTable.Visible = false;
             // 
             // splitContainer2
             // 
@@ -218,6 +230,8 @@
             // 
             // dataGridViewAttributes
             // 
+            this.dataGridViewAttributes.AllowUserToAddRows = false;
+            this.dataGridViewAttributes.AllowUserToDeleteRows = false;
             this.dataGridViewAttributes.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridViewAttributes.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dataGridViewAttributes.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -227,38 +241,14 @@
             this.id});
             this.dataGridViewAttributes.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridViewAttributes.Location = new System.Drawing.Point(0, 0);
+            this.dataGridViewAttributes.MultiSelect = false;
             this.dataGridViewAttributes.Name = "dataGridViewAttributes";
             this.dataGridViewAttributes.ReadOnly = true;
             this.dataGridViewAttributes.RowHeadersVisible = false;
+            this.dataGridViewAttributes.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridViewAttributes.Size = new System.Drawing.Size(361, 438);
             this.dataGridViewAttributes.TabIndex = 0;
             this.dataGridViewAttributes.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewAttributes_CellContentClick);
-            // 
-            // tabPage2
-            // 
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(643, 444);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Запросы";
-            this.tabPage2.UseVisualStyleBackColor = true;
-            // 
-            // tabPage3
-            // 
-            this.tabPage3.Location = new System.Drawing.Point(4, 22);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(643, 444);
-            this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "Интерфейс";
-            this.tabPage3.UseVisualStyleBackColor = true;
-            // 
-            // idTable
-            // 
-            this.idTable.HeaderText = "id";
-            this.idTable.Name = "idTable";
-            this.idTable.ReadOnly = true;
-            this.idTable.Visible = false;
             // 
             // ColumnName
             // 
@@ -286,6 +276,25 @@
             this.id.Name = "id";
             this.id.ReadOnly = true;
             this.id.Visible = false;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(643, 444);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "Запросы";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // tabPage3
+            // 
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Size = new System.Drawing.Size(643, 444);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "Интерфейс";
+            this.tabPage3.UseVisualStyleBackColor = true;
             // 
             // FormMain
             // 
