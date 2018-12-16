@@ -14,17 +14,10 @@ namespace DBCaseSystem_KokovinMedvedevStartsev
     
     public partial class QueryObject
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public QueryObject()
-        {
-            this.Query = new HashSet<Query>();
-        }
-    
         public int Id { get; set; }
         public string ObjectID { get; set; }
         public QueryObjectType Type { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Query> Query { get; set; }
+        public virtual Query Query { get; set; }
     }
 }
