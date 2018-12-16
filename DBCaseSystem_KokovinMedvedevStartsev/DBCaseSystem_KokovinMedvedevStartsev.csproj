@@ -146,6 +146,9 @@
     <Compile Include="Table.cs">
       <DependentUpon>ShortModelMetaData.tt</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Forms\FormAttributeEdit.resx">
+      <DependentUpon>FormAttributeEdit.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
     </EmbeddedResource>

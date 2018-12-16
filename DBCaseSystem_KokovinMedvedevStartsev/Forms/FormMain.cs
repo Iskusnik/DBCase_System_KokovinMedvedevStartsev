@@ -33,8 +33,8 @@ namespace DBCaseSystem_KokovinMedvedevStartsev.Forms
             {
                 switch (e.ColumnIndex)
                 {
-                    case 3: EditColumn((int)senderGrid.Rows[e.RowIndex].Cells[0].Value); break;
-                    case 4: DeleteColumn((int)senderGrid.Rows[e.RowIndex].Cells[0].Value); break;
+                    case 3: EditColumn((int)senderGrid.Rows[e.RowIndex].Cells[3].Value); break;
+                    case 4: DeleteColumn((int)senderGrid.Rows[e.RowIndex].Cells[3].Value); break;
                 }
             }
         }
@@ -48,8 +48,8 @@ namespace DBCaseSystem_KokovinMedvedevStartsev.Forms
             {
                 switch (e.ColumnIndex)
                 {
-                    case 3: EditTable((int)senderGrid.Rows[e.RowIndex].Cells[0].Value); break;
-                    case 4: DeleteTable((int)senderGrid.Rows[e.RowIndex].Cells[0].Value); break;
+                    case 3: EditTable((int)senderGrid.Rows[e.RowIndex].Cells[3].Value); break;
+                    case 4: DeleteTable((int)senderGrid.Rows[e.RowIndex].Cells[3].Value); break;
                 }
             }
         }
@@ -89,19 +89,36 @@ namespace DBCaseSystem_KokovinMedvedevStartsev.Forms
 
         private void buttonAddAttribute_Click(object sender, EventArgs e)
         {
+            Attribute attribute = new Attribute();
+            string name = "";
+            FormNameSelect selectName = new Forms.FormNameSelect(isTable: false);
 
+
+            selectName.ShowDialog();
+
+            attribute.Name = selectName.name;
+
+            if (context.NewAttributeIsLegal(attribute))
+                context.AddColumn(table, attribute);
+            else
+                MessageBox.Show("Нельзя создать таблицу. Имя занято");
         }
 
         private void buttonAddTable_Click(object sender, EventArgs e)
         {
             Table table = new Table();
             string name = "";
-            Form selectName = new Forms.FormNameSelect(ref name);
+            FormNameSelect selectName = new Forms.FormNameSelect();
+            
+
             selectName.ShowDialog();
 
-            table.Name = name;
+            table.Name = selectName.name;
 
-            context.AddTable(table);
+            if (context.NewTableIsLegal(table))
+                context.AddTable(table);
+            else
+                MessageBox.Show("Нельзя создать таблицу. Имя занято");
         }
 
         ///TODO: доделать управление формами и формы + Добавить проверку на уникальность
@@ -119,11 +136,11 @@ namespace DBCaseSystem_KokovinMedvedevStartsev.Forms
 
             dataGridViewAttributes.Rows.Clear();
             foreach (var att in attributes)
-                dataGridViewAttributes.Rows.Add(att.Name);
+                dataGridViewAttributes.Rows.Add(att.Name, "Редактировать", "Удалить", att.Id);
 
             dataGridViewTables.Rows.Clear();
             foreach (var tab in tables)
-                dataGridViewAttributes.Rows.Add(tab.Name);
+                dataGridViewTables.Rows.Add(tab.Name, "Редактировать", "Удалить", tab.Id);
         }
     }
 }

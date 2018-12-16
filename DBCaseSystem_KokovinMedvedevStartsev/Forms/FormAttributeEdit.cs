@@ -16,5 +16,15 @@ namespace DBCaseSystem_KokovinMedvedevStartsev.Forms
         {
             InitializeComponent();
         }
+
+        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void listBoxType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

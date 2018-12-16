@@ -110,6 +110,80 @@ namespace DBCaseSystem_KokovinMedvedevStartsev
             conn.Close();
         }
 
+
+
+        public void SelectDatabase(Database database)
+        {
+            conn.Open();
+
+            SqlCommand command = new SqlCommand(" ");
+
+            command.Connection = conn;
+            ///TODO: доделать запросы
+            //CREATE TABLE TableName (TableNameId int IDENTITY(1,1) PRIMARY KEY);
+            command.CommandText = "USE " + database.Name + ";";
+
+            command.Connection = conn;
+            command.ExecuteNonQuery();
+            conn.Close();
+            context.SaveChanges();
+        }
+
+        public void AddDatabase(Database database)
+        {
+            conn.Open();
+
+            SqlCommand command = new SqlCommand(" ");
+
+            command.Connection = conn;
+            ///TODO: доделать запросы
+            //CREATE TABLE TableName (TableNameId int IDENTITY(1,1) PRIMARY KEY);
+            command.CommandText = "CREATE DATABASE " + database.Name + ";";
+
+            command.Connection = conn;
+            command.ExecuteNonQuery();
+            conn.Close();
+
+            context.DatabaseSet.Add(database);
+            context.SaveChanges();
+        }
+        public void EditDatabase(Database database, string name)
+        {
+            conn.Open();
+
+            SqlCommand command = new SqlCommand(" ");
+
+            command.Connection = conn;
+            command.Connection = conn;
+            //sp_rename 'supplier', 'vendor';
+            command.CommandText = "sp_renamedb '" + database.Name + "', '" + name + "';";
+
+            database.Name = name;
+
+            command.ExecuteNonQuery();
+            conn.Close();
+            context.Entry(context.TableSet.Find(database.Id)).CurrentValues.SetValues(database);
+            context.SaveChanges();
+        }
+        public void RemoveDatabase(Database database)
+        {
+            conn.Open();
+
+            SqlCommand command = new SqlCommand(" ");
+
+            command.Connection = conn;
+            //DROP TABLE TableName;
+            command.CommandText = "DROP DATABASE " + database.Name + ";";
+
+
+            command.ExecuteNonQuery();
+            conn.Close();
+
+            context.DatabaseSet.Remove(database);
+            context.SaveChanges();
+
+        }
+
         //Обновляет первичный ключ таблицы в БД
         public void RefreshTablePrimaryKey(Table table)
         {
@@ -263,6 +337,7 @@ namespace DBCaseSystem_KokovinMedvedevStartsev
             //sp_rename 'supplier', 'vendor';
             command.CommandText = "sp_rename '" + table.Name + "', '" + name + "';";
 
+            table.Name = name;
 
             command.ExecuteNonQuery();
             conn.Close();
@@ -365,6 +440,7 @@ namespace DBCaseSystem_KokovinMedvedevStartsev
         #region Action legallity
         public bool NewTableIsLegal(Table table)
         {
+            Table[] tables = (from temp in context.TableSet where temp.Name == table.Name select temp).ToArray();
             return !context.TableSet.Contains(table);
         }
         #endregion
