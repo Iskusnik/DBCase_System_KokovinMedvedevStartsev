@@ -113,18 +113,25 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ModelMetaData.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Queries\Enums\AggregateFunc.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Queries\Enums\QuerySortType.cs" />
     <Compile Include="Query.cs">
       <DependentUpon>ShortModelMetaData.tt</DependentUpon>
     </Compile>
-    <Compile Include="QueryConstructForm.cs">
+    <Compile Include="Queries\QueryAttributeInfo.cs" />
+    <Compile Include="Queries\QueryConstractState.cs" />
+    <Compile Include="Queries\QueryConstructForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="QueryConstructForm.Designer.cs">
+    <Compile Include="Queries\QueryConstructForm.Designer.cs">
       <DependentUpon>QueryConstructForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="QueryHandler.cs" />
+    <Compile Include="Queries\ControlPacks\QueryControlPack.cs" />
+    <Compile Include="Queries\ControlPacks\QueryControlPackAgr.cs" />
+    <Compile Include="Queries\ControlPacks\QueryControlPackGen.cs" />
+    <Compile Include="Queries\QueryHandler.cs" />
     <Compile Include="QueryObject.cs">
       <DependentUpon>ShortModelMetaData.tt</DependentUpon>
     </Compile>
@@ -164,7 +171,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="QueryConstructForm.resx">
+    <EmbeddedResource Include="Queries\QueryConstructForm.resx">
       <DependentUpon>QueryConstructForm.cs</DependentUpon>
     </EmbeddedResource>
     <EntityDeploy Include="ModelMetaData.edmx">
@@ -208,5 +215,6 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

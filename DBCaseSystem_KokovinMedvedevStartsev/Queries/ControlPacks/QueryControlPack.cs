@@ -1,64 +1,44 @@
 ﻿using DBCaseSystem_KokovinMedvedevStartsev.Queries;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace DBCaseSystem_KokovinMedvedevStartsev
 {
+
     /// <summary>
-    /// Форма конструктора запросов
+    /// Информация об элементах управления, определяющих запрос
     /// </summary>
-    public partial class QueryConstructForm : Form
+    public abstract class QueryControlPack
     {
         /// <summary>
-        /// Обработчик действий конструктора
+        /// Выбранные источники
         /// </summary>
-        private QueryHandler handler;
+        public List<object> selectedSources;
 
         /// <summary>
-        /// Список выбранных источников
+        /// Репозиторий
         /// </summary>
-        private List<object> selectedSources;
+        public QueryHandler handler;
 
-        public QueryConstructForm(QueryHandler handler)
+
+        public QueryControlPack(ref QueryHandler handler, ref List<object> Sources)
         {
-            InitializeComponent();
             this.handler = handler;
-            selectedSources = new List<object>();
-            SetSourcesCombo();
+            selectedSources = Sources;
         }
 
         /// <summary>
-        /// Функция настройки элементов <see cref="SourcesCombo"/>
+        /// Коллекция самих элементов
         /// </summary>
-        private void SetSourcesCombo()
-        {
-            var sources = handler.GetSources();
-            SourcesCombo.Items.AddRange(sources.ToArray());
-        }
-
-        /// <summary>
-        /// Функция добавления источника
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void button1_Click(object sender, EventArgs e)
-        {
-            selectedSources.Add(SourcesCombo.SelectedItem);
-            //очень не уверен
-        }
+        /// <returns>Коллекция самих элементов</returns>
+        public abstract IEnumerable<Control> Controls();
 
         /// <summary>
         /// Установка элементов <see cref="ComboBox"/> как выбранные источники
         /// </summary>
         /// <param name="comboBox">Изменяемый комбобокс</param>
-        private void SetSourceCombo(ref ComboBox comboBox)
+        protected void SetSourceCombo(ref ComboBox comboBox)
         {
             comboBox.Items.Clear();
             comboBox.Items.AddRange(selectedSources.ToArray());
@@ -69,7 +49,7 @@ namespace DBCaseSystem_KokovinMedvedevStartsev
         /// </summary>
         /// <param name="comboBox">Изменяемый комбобокс</param>
         /// <param name="Source">Источник</param>
-        private void SetAttributeCombo(ref ComboBox comboBox, ref object Source)
+        protected void SetAttributeCombo(ref ComboBox comboBox, object Source)
         {
             if (Source is Table)
             {
@@ -83,5 +63,11 @@ namespace DBCaseSystem_KokovinMedvedevStartsev
             }
             else throw new Exception("Объект " + Source + " имеет недопустимый тип");
         }
+
+        /// <summary>
+        /// Изменение типа из-за смены типа запроса (с обычного на итоговый)
+        /// </summary>
+        /// <returns>Результат изменения</returns>
+        public abstract QueryControlPack Convert();
     }
 }
