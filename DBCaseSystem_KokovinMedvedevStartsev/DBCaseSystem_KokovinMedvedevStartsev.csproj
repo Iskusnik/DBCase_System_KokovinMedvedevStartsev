@@ -117,11 +117,16 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Queries\Enums\QuerySortType.cs" />
+    <Compile Include="Queries\State\Link.cs" />
+    <Compile Include="Queries\ControlPacks\LinkCombos.cs" />
+    <Compile Include="Queries\State\LinkNode.cs" />
+    <Compile Include="Queries\State\LinkNodeQuery.cs" />
+    <Compile Include="Queries\State\LinkNodeTable.cs" />
     <Compile Include="Query.cs">
       <DependentUpon>ShortModelMetaData.tt</DependentUpon>
     </Compile>
-    <Compile Include="Queries\QueryAttributeInfo.cs" />
-    <Compile Include="Queries\QueryConstractState.cs" />
+    <Compile Include="Queries\State\QueryAttributeInfo.cs" />
+    <Compile Include="Queries\State\QueryConstractState.cs" />
     <Compile Include="Queries\QueryConstructForm.cs">
       <SubType>Form</SubType>
     </Compile>

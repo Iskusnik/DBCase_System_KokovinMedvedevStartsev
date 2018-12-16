@@ -15,7 +15,7 @@
         <AssociationConnector Association="ModelMetaData.DatabaseTable" />
         <EntityTypeShape EntityType="ModelMetaData.QueryOutput" Width="1.5" PointX="12.625" PointY="2.25" />
         <AssociationConnector Association="ModelMetaData.QueryQueryOutput" />
-        <EntityTypeShape EntityType="ModelMetaData.QueryObject" Width="1.5" PointX="10.5" PointY="2.875" />
+        <EntityTypeShape EntityType="ModelMetaData.QueryObject" Width="1.5" PointX="10.5" PointY="3.5" />
         <AssociationConnector Association="ModelMetaData.QueryObjectQuery" />
       </Diagram>
     </edmx:Diagrams>

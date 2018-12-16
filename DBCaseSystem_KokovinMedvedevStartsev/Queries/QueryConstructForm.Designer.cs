@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.treeView1 = new System.Windows.Forms.TreeView();
             this.SourceButton = new System.Windows.Forms.Button();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.label9 = new System.Windows.Forms.Label();
@@ -43,15 +42,18 @@
             this.SourcesCombo = new System.Windows.Forms.ComboBox();
             this.ChangeTypeButton = new System.Windows.Forms.Button();
             this.SaveButton = new System.Windows.Forms.Button();
+            this.SourcesListBox = new System.Windows.Forms.ListBox();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.LinksTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.AddLinkButton = new System.Windows.Forms.Button();
+            this.label13 = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
+            this.panel1.SuspendLayout();
+            this.LinksTableLayoutPanel.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // treeView1
-            // 
-            this.treeView1.Location = new System.Drawing.Point(12, 41);
-            this.treeView1.Name = "treeView1";
-            this.treeView1.Size = new System.Drawing.Size(776, 178);
-            this.treeView1.TabIndex = 0;
             // 
             // SourceButton
             // 
@@ -184,7 +186,7 @@
             // 
             // ChangeTypeButton
             // 
-            this.ChangeTypeButton.Location = new System.Drawing.Point(713, 13);
+            this.ChangeTypeButton.Location = new System.Drawing.Point(794, 13);
             this.ChangeTypeButton.Name = "ChangeTypeButton";
             this.ChangeTypeButton.Size = new System.Drawing.Size(75, 23);
             this.ChangeTypeButton.TabIndex = 4;
@@ -202,29 +204,113 @@
             this.SaveButton.UseVisualStyleBackColor = true;
             this.SaveButton.Click += new System.EventHandler(this.SaveButton_Click);
             // 
+            // SourcesListBox
+            // 
+            this.SourcesListBox.FormattingEnabled = true;
+            this.SourcesListBox.Location = new System.Drawing.Point(12, 53);
+            this.SourcesListBox.Name = "SourcesListBox";
+            this.SourcesListBox.Size = new System.Drawing.Size(324, 160);
+            this.SourcesListBox.TabIndex = 6;
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.LinksTableLayoutPanel);
+            this.panel1.Location = new System.Drawing.Point(390, 53);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(398, 160);
+            this.panel1.TabIndex = 7;
+            // 
+            // LinksTableLayoutPanel
+            // 
+            this.LinksTableLayoutPanel.AutoScroll = true;
+            this.LinksTableLayoutPanel.ColumnCount = 4;
+            this.LinksTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 54.02299F));
+            this.LinksTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 45.97701F));
+            this.LinksTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 97F));
+            this.LinksTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 119F));
+            this.LinksTableLayoutPanel.Controls.Add(this.label13, 3, 0);
+            this.LinksTableLayoutPanel.Controls.Add(this.label12, 2, 0);
+            this.LinksTableLayoutPanel.Controls.Add(this.label11, 1, 0);
+            this.LinksTableLayoutPanel.Controls.Add(this.label10, 0, 0);
+            this.LinksTableLayoutPanel.Location = new System.Drawing.Point(4, 4);
+            this.LinksTableLayoutPanel.Name = "LinksTableLayoutPanel";
+            this.LinksTableLayoutPanel.RowCount = 1;
+            this.LinksTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 18.4466F));
+            this.LinksTableLayoutPanel.Size = new System.Drawing.Size(391, 153);
+            this.LinksTableLayoutPanel.TabIndex = 0;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(3, 0);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(55, 13);
+            this.label10.TabIndex = 0;
+            this.label10.Text = "Источник";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(97, 0);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(47, 13);
+            this.label11.TabIndex = 1;
+            this.label11.Text = "Атрибут";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(177, 0);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(55, 13);
+            this.label12.TabIndex = 2;
+            this.label12.Text = "Источник";
+            // 
+            // AddLinkButton
+            // 
+            this.AddLinkButton.Location = new System.Drawing.Point(795, 77);
+            this.AddLinkButton.Name = "AddLinkButton";
+            this.AddLinkButton.Size = new System.Drawing.Size(74, 23);
+            this.AddLinkButton.TabIndex = 8;
+            this.AddLinkButton.Text = "Добавить";
+            this.AddLinkButton.UseVisualStyleBackColor = true;
+            this.AddLinkButton.Click += new System.EventHandler(this.AddLinkButton_Click);
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(274, 0);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(47, 13);
+            this.label13.TabIndex = 3;
+            this.label13.Text = "Атрибут";
+            // 
             // QueryConstructForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(866, 450);
+            this.Controls.Add(this.AddLinkButton);
+            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.SourcesListBox);
             this.Controls.Add(this.SaveButton);
             this.Controls.Add(this.ChangeTypeButton);
             this.Controls.Add(this.SourcesCombo);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.SourceButton);
-            this.Controls.Add(this.treeView1);
             this.Name = "QueryConstructForm";
             this.Text = "QueryConstructForm";
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
+            this.panel1.ResumeLayout(false);
+            this.LinksTableLayoutPanel.ResumeLayout(false);
+            this.LinksTableLayoutPanel.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.TreeView treeView1;
         private System.Windows.Forms.Button SourceButton;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Label label1;
@@ -239,5 +325,13 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Button SaveButton;
+        private System.Windows.Forms.ListBox SourcesListBox;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.TableLayoutPanel LinksTableLayoutPanel;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Button AddLinkButton;
+        private System.Windows.Forms.Label label13;
     }
 }

@@ -2,6 +2,7 @@
 
 namespace DBCaseSystem_KokovinMedvedevStartsev.Queries
 {
+
     /// <summary>
     /// Модель запроса
     /// </summary>
@@ -21,7 +22,12 @@ namespace DBCaseSystem_KokovinMedvedevStartsev.Queries
         /// Информация об используемых атрибутах результатов запросов
         /// </summary>
         public Dictionary<QueryOutput, QueryAttributeInfo> QueryAttributesInfo;
-       
+
+        /// <summary>
+        /// Список связей таблиц
+        /// </summary>
+        public List<Link> LinkList;
+        
         /// <summary>
         /// Является ли запрос итоговым
         /// </summary>
@@ -34,6 +40,7 @@ namespace DBCaseSystem_KokovinMedvedevStartsev.Queries
             this.IsAggregate = IsAggregate;
             AttributesInfo = new Dictionary<Attribute, QueryAttributeInfo>();
             QueryAttributesInfo = new Dictionary<QueryOutput, QueryAttributeInfo>();
+            LinkList = new List<Link>();
         }
 
         public QueryConstractState()
@@ -41,6 +48,8 @@ namespace DBCaseSystem_KokovinMedvedevStartsev.Queries
             Sources = new List<object>();
             AttributesInfo = new Dictionary<Attribute, QueryAttributeInfo>();
             QueryAttributesInfo = new Dictionary<QueryOutput, QueryAttributeInfo>();
+            LinkList = new List<Link>();
+
         }
 
 

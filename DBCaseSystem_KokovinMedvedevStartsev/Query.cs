@@ -18,6 +18,7 @@ namespace DBCaseSystem_KokovinMedvedevStartsev
         public Query()
         {
             this.QueryOutput = new HashSet<QueryOutput>();
+            this.QueryObject = new HashSet<QueryObject>();
         }
     
         public int Id { get; set; }
@@ -26,6 +27,7 @@ namespace DBCaseSystem_KokovinMedvedevStartsev
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<QueryOutput> QueryOutput { get; set; }
-        public virtual QueryObject QueryObject { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<QueryObject> QueryObject { get; set; }
     }
 }

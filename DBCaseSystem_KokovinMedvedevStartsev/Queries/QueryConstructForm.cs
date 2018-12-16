@@ -12,7 +12,6 @@ using System.Windows.Forms;
 namespace DBCaseSystem_KokovinMedvedevStartsev
 {
 
-
     /// <summary>
     /// Форма конструктора запросов
     /// </summary>
@@ -160,6 +159,7 @@ namespace DBCaseSystem_KokovinMedvedevStartsev
             QueryControls = new List<QueryControlPack>();
             IsAggregate = !Aggregating;
             ChangeTypeButton_Click(null,null);
+            links = new List<LinkCombos>();
         }
 
         /// <summary>
@@ -177,6 +177,7 @@ namespace DBCaseSystem_KokovinMedvedevStartsev
         private void button1_Click(object sender, EventArgs e)
         {
             selectedSources.Add(SourcesCombo.SelectedItem);
+            SourcesListBox.Items.Add(SourcesCombo.SelectedItem);
             //очень не уверен
         }
         
@@ -190,5 +191,18 @@ namespace DBCaseSystem_KokovinMedvedevStartsev
         {
 
         }
+
+        private List<LinkCombos> links;
+
+        private void AddLinkButton_Click(object sender, EventArgs e)
+        {
+            LinkCombos linkCombos = new LinkCombos(ref selectedSources, ref handler);
+            links.Add(linkCombos);
+            LinksTableLayoutPanel.RowCount++;
+            LinksTableLayoutPanel.Controls.AddRange(linkCombos.Controls().ToArray());
+        }
+
+
+       
     }
 }

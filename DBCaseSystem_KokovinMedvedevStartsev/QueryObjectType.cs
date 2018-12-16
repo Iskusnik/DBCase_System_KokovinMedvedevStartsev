@@ -15,6 +15,7 @@ namespace DBCaseSystem_KokovinMedvedevStartsev
     {
         Query = 0,
         Attribute = 1,
-        Table = 2
+        Table = 2,
+        QueryOutput = 3
     }
 }
