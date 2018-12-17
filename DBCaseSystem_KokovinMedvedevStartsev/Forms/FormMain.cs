@@ -13,7 +13,7 @@ namespace DBCaseSystem_KokovinMedvedevStartsev.Forms
     public partial class FormMain : Form
     {
         MetaControllContext context;
-        Table selectedTable;
+        int selectedTable;
         Database selectedDatabase;
 
         public FormMain(Database dbData)
@@ -43,6 +43,8 @@ namespace DBCaseSystem_KokovinMedvedevStartsev.Forms
                     case 4: DeleteColumn((int)senderGrid.Rows[e.RowIndex].Cells[3].Value); break;
                 }
             }
+
+            RefreshForm();
         }
 
         private void dataGridViewTables_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -58,6 +60,8 @@ namespace DBCaseSystem_KokovinMedvedevStartsev.Forms
                     case 4: DeleteTable((int)senderGrid.Rows[e.RowIndex].Cells[3].Value); break;
                 }
             }
+
+            RefreshForm();
         }
 
 
@@ -66,24 +70,41 @@ namespace DBCaseSystem_KokovinMedvedevStartsev.Forms
         {
             Form editColumn = new FormAttributeEdit();
             editColumn.ShowDialog();
+
+            RefreshForm();
         }
 
         private void EditTable(int id)
         {
-            Form editTable = new FormTableEdit();
-            editTable.ShowDialog();
+            Table table = context.context.TableSet.Find(id);
+            string name = "";
+            FormNameSelect selectName = new Forms.FormNameSelect();
+
+            selectName.ShowDialog();
+
+
+            string newName = selectName.name;
+
+            context.EditTable(table, newName);
+
+            RefreshForm();
         }
         private void buttonAddRelation_Click(object sender, EventArgs e)
         {
             Form relations = new FormRelationControll();
             relations.ShowDialog();
+
+            RefreshForm();
         }
 
 
         private void DeleteColumn(int id)
         {
+            Table table = context.context.TableSet.Find(selectedTable);
             Attribute attribute = context.context.AttributeSet.Find(id);
-            context.RemoveColumn(selectedTable, attribute);
+            context.RemoveColumn(table, attribute);
+
+            RefreshForm();
         }
 
 
@@ -91,16 +112,18 @@ namespace DBCaseSystem_KokovinMedvedevStartsev.Forms
         {
             Table table = context.context.TableSet.Find(id);
             context.RemoveTable(table);
+
+            RefreshForm();
         }
 
-        
+
 
         private void buttonAddAttribute_Click(object sender, EventArgs e)
         {
             Attribute attribute = new Attribute();
             string name = "";
             FormNameSelect selectName = new Forms.FormNameSelect(isTable: false);
-
+            Table table = context.context.TableSet.Find(selectedTable);
 
             selectName.ShowDialog();
 
@@ -108,9 +131,10 @@ namespace DBCaseSystem_KokovinMedvedevStartsev.Forms
 
             if (selectName.name != "")
                 if (context.NewAttributeIsLegal(attribute))
-                    context.AddColumn(selectedTable, attribute);
+                    context.AddColumn(table, attribute);
                 else
                     MessageBox.Show("Нельзя создать атрибут. Имя занято");
+            RefreshForm();
         }
 
         private void buttonAddTable_Click(object sender, EventArgs e)
@@ -118,7 +142,7 @@ namespace DBCaseSystem_KokovinMedvedevStartsev.Forms
             Table table = new Table();
             string name = "";
             FormNameSelect selectName = new Forms.FormNameSelect();
-            
+
 
             selectName.ShowDialog();
 
@@ -128,6 +152,8 @@ namespace DBCaseSystem_KokovinMedvedevStartsev.Forms
                 context.AddTable(table);
             else
                 MessageBox.Show("Нельзя создать таблицу. Имя занято");
+
+            RefreshForm();
         }
 
         ///TODO: доделать управление формами и формы + Добавить проверку на уникальность
@@ -135,36 +161,40 @@ namespace DBCaseSystem_KokovinMedvedevStartsev.Forms
         private void FormMain_Load(object sender, EventArgs e)
         {
             context = new MetaControllContext(null);
+            context.SelectDatabase(selectedDatabase);
             RefreshForm();
         }
 
         private void RefreshForm()
         {
-            Table[] tables = context.context.TableSet.ToArray();
-
-            RefreshAttributes();
-
-            dataGridViewTables.Rows.Clear();
-            int i = 0;
-            int j = -1;
-            foreach (var tab in tables)
+            if (context.context.TableSet.Count() > 0)
             {
-                dataGridViewTables.Rows.Add(tab.Name, "Редактировать", "Удалить", tab.Id);
+                Table[] tables = context.context.TableSet.ToArray();
 
-                if (tab.Id == selectedTable.Id)
-                    j = i;
+                RefreshAttributes();
 
-                i++;
+                dataGridViewTables.Rows.Clear();
+                int i = 0;
+                int j = -1;
+                foreach (var tab in tables)
+                {
+                    dataGridViewTables.Rows.Add(tab.Name, "Редактировать", "Удалить", tab.Id);
+
+                    if (tab.Id == selectedTable)
+                        j = i;
+
+                    i++;
+                }
+                if (j != -1)
+                    dataGridViewTables.Rows[j].Selected = true;
             }
-            if (j != -1)
-                dataGridViewTables.Rows[j].Selected = true;
-            
         }
+
         private void RefreshAttributes()
         {
             if (context.context.TableSet.Count() > 0)
             {
-                Table temp = (from t in context.context.TableSet where t.Id == selectedTable.Id select t).ToArray()[0];
+                Table temp = (from t in context.context.TableSet where t.Id == selectedTable select t).ToArray()[0];
                 Attribute[] attributes = temp.Attribute.ToArray();
 
                 dataGridViewAttributes.Rows.Clear();
@@ -177,11 +207,13 @@ namespace DBCaseSystem_KokovinMedvedevStartsev.Forms
         {
             if (dataGridViewTables.SelectedRows.Count > 0)
             {
+                selectedTable = (int)dataGridViewTables.SelectedCells[3].Value;
                 buttonAddRelation.Enabled = true;
                 buttonAddAttribute.Enabled = true;
             }
             else
             {
+                selectedTable = -1;
                 buttonAddRelation.Enabled = false;
                 buttonAddAttribute.Enabled = false;
             }

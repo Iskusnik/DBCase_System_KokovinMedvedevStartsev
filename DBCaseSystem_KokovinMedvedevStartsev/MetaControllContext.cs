@@ -424,7 +424,7 @@ namespace DBCaseSystem_KokovinMedvedevStartsev
                                       " DROP FOREIGN KEY " + tableBname + "Id";
 
             if (type.Equals("parent"))
-                ;//Добавляется FOREIGN KEY у чайлда
+                    ;//Добавляется FOREIGN KEY у чайлда
 
             if (type.Equals("equal"))
                 ;//Создавать новую таблицу 
@@ -459,6 +459,14 @@ namespace DBCaseSystem_KokovinMedvedevStartsev
         {
             Attribute[] attributes = (from temp in context.AttributeSet where temp.Name == attribute.Name select temp).ToArray();
             return attributes.Length == 0;
+            //return !context.AttributeSet.Contains(attribute);
+        }
+
+        public bool NewDatabaseIsLegal(Database database)
+        {
+            string name = database.Name;
+            Database[] databases = (from temp in context.DatabaseSet where temp.Name == name select temp).ToArray();
+            return databases.Length == 0;
             //return !context.AttributeSet.Contains(attribute);
         }
         #endregion

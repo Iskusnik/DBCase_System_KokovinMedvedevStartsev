@@ -97,12 +97,6 @@
     <Compile Include="Forms\FormRelationEdit.Designer.cs">
       <DependentUpon>FormRelationEdit.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\FormTableEdit.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\FormTableEdit.Designer.cs">
-      <DependentUpon>FormTableEdit.cs</DependentUpon>
-    </Compile>
     <Compile Include="MetaControllContext.cs" />
     <Compile Include="ModelMetaData.Context.cs">
       <AutoGen>True</AutoGen>

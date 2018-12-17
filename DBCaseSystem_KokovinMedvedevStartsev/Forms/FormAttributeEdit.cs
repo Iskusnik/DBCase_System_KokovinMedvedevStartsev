@@ -72,3 +72,4 @@ namespace DBCaseSystem_KokovinMedvedevStartsev.Forms
         }
     }
 }
+//добавить перечислние для типов и добавить каскадное удаление

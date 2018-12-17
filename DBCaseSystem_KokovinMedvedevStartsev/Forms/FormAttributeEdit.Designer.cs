@@ -40,11 +40,11 @@
             this.checkBoxKey = new System.Windows.Forms.CheckBox();
             this.textBoxLenght = new System.Windows.Forms.TextBox();
             this.checkBoxNull = new System.Windows.Forms.CheckBox();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.checkBoxIndexed = new System.Windows.Forms.CheckBox();
-            this.label6 = new System.Windows.Forms.Label();
             this.textBoxDefaultName = new System.Windows.Forms.TextBox();
+            this.comboBox2 = new System.Windows.Forms.ComboBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.checkBoxIndexed = new System.Windows.Forms.CheckBox();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -196,6 +196,14 @@
             this.checkBoxNull.Text = "Да";
             this.checkBoxNull.UseVisualStyleBackColor = true;
             // 
+            // textBoxDefaultName
+            // 
+            this.textBoxDefaultName.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBoxDefaultName.Location = new System.Drawing.Point(150, 153);
+            this.textBoxDefaultName.Name = "textBoxDefaultName";
+            this.textBoxDefaultName.Size = new System.Drawing.Size(170, 20);
+            this.textBoxDefaultName.TabIndex = 12;
+            // 
             // comboBox2
             // 
             this.comboBox2.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -212,16 +220,14 @@
             this.comboBox2.Size = new System.Drawing.Size(170, 21);
             this.comboBox2.TabIndex = 14;
             // 
-            // button1
+            // label6
             // 
-            this.button1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.button1.Location = new System.Drawing.Point(0, 0);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(323, 36);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "Сохранить";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(3, 150);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(129, 13);
+            this.label6.TabIndex = 5;
+            this.label6.Text = "Значение по умолчанию";
             // 
             // checkBoxIndexed
             // 
@@ -233,22 +239,16 @@
             this.checkBoxIndexed.Text = "Да";
             this.checkBoxIndexed.UseVisualStyleBackColor = true;
             // 
-            // label6
+            // button1
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(3, 150);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(129, 13);
-            this.label6.TabIndex = 5;
-            this.label6.Text = "Значение по умолчанию";
-            // 
-            // textBoxDefaultName
-            // 
-            this.textBoxDefaultName.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxDefaultName.Location = new System.Drawing.Point(150, 153);
-            this.textBoxDefaultName.Name = "textBoxDefaultName";
-            this.textBoxDefaultName.Size = new System.Drawing.Size(170, 20);
-            this.textBoxDefaultName.TabIndex = 12;
+            this.button1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.button1.Location = new System.Drawing.Point(0, 0);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(323, 36);
+            this.button1.TabIndex = 2;
+            this.button1.Text = "Сохранить";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // FormAttributeEdit
             // 

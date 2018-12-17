@@ -16,7 +16,7 @@ namespace DBCaseSystem_KokovinMedvedevStartsev
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Forms.FormMain(new Database()));
+            Application.Run(new Forms.FormDBList());
         }
     }
 }
