@@ -423,6 +423,115 @@ namespace DBCaseSystem_KokovinMedvedevStartsev.Queries
 
         #region QueryText
         /// <summary>
+        /// Обход связей источников в глубину
+        /// </summary>
+        /// <param name="CurrentSource">Текущий источник</param>
+        /// <param name="was">Пройденные источники</param>
+        /// <param name="graph">Список связей</param>
+        /// <returns>Список связей, по которым был проведён обход</returns>
+        private List<Link> SourceDFS(object CurrentSource, ref SortedSet<object> was, ref List<Link> graph)
+        {
+            was.Add(CurrentSource);
+            List<Link> result = new List<Link>();
+            foreach (var item in graph)
+            {
+                if (GetSource(item.Left) == CurrentSource && !was.Contains(GetSource(item.Right)))
+                {
+                    result.AddRange(SourceDFS(GetSource(item.Right), ref was, ref graph));
+                }
+                if (GetSource(item.Right) == CurrentSource && !was.Contains(GetSource(item.Left)))
+                {
+                    result.AddRange(SourceDFS(GetSource(item.Left), ref was, ref graph));
+                }
+            }
+            return result;
+        }
+        
+        private object GetSource(object atr)
+        {
+            if (atr is Attribute attribute)
+            {
+                return attribute.Table;
+            }
+            if (atr is QueryOutput output)
+            {
+                return output.Query;
+            }
+            else throw new Exception("Входная переменная имеет неверный тип");
+        }
+
+        /// <summary>
+        /// Получить часть FROM для хранимого текста запроса
+        /// </summary>
+        /// <param name="State">Стейт запроса</param>
+        /// <param name="query">Текущий объект запроса</param>
+        /// <returns>Строка, обозначающая FROM часть запроса</returns>
+        private string GetFrom(QueryConstractState State, Query query)
+        {
+            string result = string.Empty;
+            bool first = true;
+            var was = new SortedSet<object>();
+            foreach (var a in State.Sources)
+            {
+                if (!was.Contains(a))
+                {
+                    var component = SourceDFS(a, ref was, ref State.LinkList);
+
+                    string Component = string.Empty;
+
+                    if (component.Count == 0)
+                    {
+                        Component = QueryInsertPrefix + " " + GetQueryObjectId(GetSource(a), query);
+                    }
+                    else
+                    {
+                        var nwas = new SortedSet<object>();
+                        bool localFirst = true;
+                        foreach (var link in component)
+                        {
+                            if (localFirst)
+                            {
+                                Component = QueryInsertPrefix + " " + GetQueryObjectId(GetSource(link.Left), query)
+                                    + " INNER JOIN "
+                                    + QueryInsertPrefix + " " + GetQueryObjectId(GetSource(link.Right), query)
+                                    + " ON "
+                                    + QueryInsertPrefix + " " + GetQueryObjectId(link.Left, query)
+                                    + " = "
+                                    + QueryInsertPrefix + " " + GetQueryObjectId(link.Right, query);
+                                nwas.Add(GetSource(link.Left));
+                                nwas.Add(GetSource(link.Right));
+                            }
+                            else
+                            {
+                                if (!nwas.Contains(GetSource(link.Left)))
+                                {
+                                    Component = "( " + Component + " ) INNER JOIN " + GetSource(link.Left) + " ON "
+                                        + QueryInsertPrefix + " " + GetQueryObjectId(link.Left, query)
+                                    + " = "
+                                    + QueryInsertPrefix + " " + GetQueryObjectId(link.Right, query);
+                                    nwas.Add(GetSource(link.Left));
+                                }
+                                else if (!nwas.Contains(GetSource(link.Right)))
+                                {
+                                    Component = "( " + Component + " ) INNER JOIN " + GetSource(link.Right) + " ON "
+                                        + QueryInsertPrefix + " " + GetQueryObjectId(link.Left, query)
+                                    + " = "
+                                    + QueryInsertPrefix + " " + GetQueryObjectId(link.Right, query);
+                                    nwas.Add(GetSource(link.Right));
+                                }
+                            }
+                        }
+                    }
+
+                    if (first) result = Component;
+                    else result += ", " + Component;
+                    first = false;
+                }
+            }
+            return result;
+        }
+
+        /// <summary>
         /// Создание хранимого текста общего запроса
         /// </summary>
         /// <param name="State">Стэйт запроса</param>
@@ -451,9 +560,8 @@ namespace DBCaseSystem_KokovinMedvedevStartsev.Queries
             }
             #endregion SELECT
             #region FROM
-            SQL += "\n FROM ";
-            first = true;
-            //TO DO:Необходимо сделать DFS по графу, представленному в виде списка рёбер State.LinkList
+            SQL += "\n FROM " + GetFrom(State, query);
+           
             #endregion FROM
             #region WHERE
             SQL += "\n ";
@@ -564,9 +672,8 @@ namespace DBCaseSystem_KokovinMedvedevStartsev.Queries
             }
             #endregion SELECT
             #region FROM
-            SQL += "\n FROM ";
-            first = true;
-            //TO DO:Необходимо сделать DFS по графу, представленному в виде списка рёбер State.LinkList
+            SQL += "\n FROM " + GetFrom(State, query);
+          
             #endregion FROM
             #region WHERE
             SQL += "\n ";
